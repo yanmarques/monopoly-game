@@ -17,7 +17,6 @@ public class CardStack {
         this.stack = new Stack<>();
         this.runningBoard = board;
         this.setCards(cards);
-        this.generateRandomCards();
     }
 
     public void setCards(LuckyCard[] cards) {
