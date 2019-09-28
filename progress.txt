@@ -1,0 +1,19 @@
+[ ] Jogador:
+    - falta ver sobre o status da prisao;
+    - usar fila para os imoveis;
+    - inicia com 2500;
+[ ] Banqueiro:
+    - definir se vai precisar da classe ou se as operações serão realizadas no tabuleiro;
+[ ] Tabuleiro:
+    - feito;
+[ ] PilhaNoticias:
+    - feito;
+[ ] Prisão:
+    - usar uma fila;
+[ ] Dados:
+    - jogar 2 numeros aleatorios no dado;
+[ ] Terreno:
+    - corrigir getters/setters para o atributo construção;
+[ ] Construção:
+    - corrigir valores;
+[ ] Testes da fundação;
