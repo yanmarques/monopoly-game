@@ -4,7 +4,6 @@ import com.org.Node;
 import com.org.stack.Stack;
 import com.prj.commom.Dice;
 import com.prj.entity.PathBoard;
-import com.prj.commom.card.un_luckies.PayMoney;
 import com.prj.entity.Player;
 
 public class CardStack {
@@ -12,36 +11,39 @@ public class CardStack {
 
     private Stack<LuckyCard> stack;
     private PathBoard runningBoard;
+    private LuckyCard[] cards;
 
-    public CardStack(PathBoard board) {
+    public CardStack(PathBoard board, LuckyCard[] cards) {
         this.stack = new Stack<>();
         this.runningBoard = board;
-        this.generateRandomNotices();
+        this.setCards(cards);
+        this.generateRandomCards();
+    }
+
+    public void setCards(LuckyCard[] cards) {
+        this.cards = cards;
     }
 
     public void take(Player player) {
         if (this.stack.isEmpty()) {
-            this.generateRandomNotices();
+            this.generateRandomCards();
         }
 
         LuckyCard card = this.stack.remove().getValue();
         card.execute(player, this.runningBoard);
     }
 
-    private void generateRandomNotices() {
-        LuckyCard nextCard = null;
+    private void generateRandomCards() {
+        LuckyCard nextCard;
         int i, randValue;
+
         i = 0;
 
-        LuckyCard[] cards = new LuckyCard[3];
-        cards[0] = new PayMoney();
-//        cards[1] = outra;
-//        cards[2] = classe;
-
         do {
-            randValue = Dice.nextInt(3);
-            this.stack.insert(new Node<>(cards[randValue]));
+            randValue = Dice.nextInt(this.cards.length);
+            nextCard = this.cards[randValue];
+            this.stack.insert(new Node<>(nextCard));
             i++;
-        }while(i < this.SIZE);
+        } while(i < this.SIZE);
     }
 }
