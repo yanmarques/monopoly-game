@@ -7,7 +7,7 @@ import com.prj.entity.PathBoard;
 import com.prj.entity.Player;
 
 public class CardStack {
-    final public int SIZE = 60;
+    public static int SIZE = 60;
 
     private Stack<LuckyCard> stack;
     private PathBoard runningBoard;
@@ -44,6 +44,6 @@ public class CardStack {
             nextCard = this.cards[randValue];
             this.stack.insert(new Node<>(nextCard));
             i++;
-        } while(i < this.SIZE);
+        } while (i < SIZE);
     }
 }
