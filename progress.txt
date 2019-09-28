@@ -1,3 +1,6 @@
+[ ] Testes da fundação:
+    - [ ] pilha de noticias
+
 [ ] Jogador:
     - falta ver sobre o status da prisao;
     - usar fila para os imoveis;
@@ -16,4 +19,3 @@
     - corrigir getters/setters para o atributo construção;
 [ ] Construção:
     - corrigir valores;
-[ ] Testes da fundação;
