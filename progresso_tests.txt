@@ -1,0 +1,3 @@
+[ ] Testes da fundação:
+    - [X] dados
+    - [X] pilha de cartas sorte/azar
