@@ -33,23 +33,14 @@ public class CardStack {
         int i, randValue;
         i = 0;
 
+        LuckyCard[] cards = new LuckyCard[3];
+        cards[0] = new PayMoney();
+//        cards[1] = outra;
+//        cards[2] = classe;
+
         do {
-            randValue = Dice.nextPositiveInt(3);
-            switch (randValue) {
-                case 1:
-                    //valor a pagar
-                    nextCard = new PayMoney();
-                    break;
-                case 2:
-                    //valor a cobrar
-                    break;
-                case 3:
-                    //prisao
-                    break;
-                 default:
-                     throw new RuntimeException("Invalid value for cards!");
-            }
-            this.stack.insert(new Node<>(nextCard));
+            randValue = Dice.nextInt(3);
+            this.stack.insert(new Node<>(cards[randValue]));
             i++;
         }while(i < this.SIZE);
     }
