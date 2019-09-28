@@ -1,6 +1,6 @@
 [ ] Testes da fundação:
     - [X] dados
-    - [ ] pilha de noticias
+    - [X] pilha de noticias
 
 [ ] Jogador:
     - falta ver sobre o status da prisao;
