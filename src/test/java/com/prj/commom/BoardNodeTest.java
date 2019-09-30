@@ -27,5 +27,6 @@ public class BoardNodeTest {
         BoardNode node = new BoardNode(ground);
         assertFalse(node.isLuckyCard());
         assertFalse(node.isStart());
+        assertEquals(node.getGround(), ground);
     }
 }
