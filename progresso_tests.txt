@@ -1,3 +1,4 @@
 [ ] Testes da fundação:
     - [X] dados
     - [X] pilha de cartas sorte/azar
+    - [X] nós no tabuleiro
