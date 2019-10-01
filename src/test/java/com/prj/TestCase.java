@@ -5,6 +5,7 @@ import com.org.stack.Stack;
 import com.prj.commom.Dice;
 import com.prj.commom.StackedFakeRandom;
 import com.prj.entity.Player;
+import com.prj.entity.bank.Account;
 import com.prj.entity.prison.Jail;
 import com.prj.entity.prison.LiberationCard;
 import com.prj.entity.prison.Prisioner;
@@ -14,8 +15,12 @@ import java.util.Random;
 
 public class TestCase {
     @BeforeEach
-    public void teardown() {
+    public void baseSetUp() {
         Dice.setRandGenerator(new Random());
+    }
+
+    public Account dummyAccount() {
+        return new Account(this.dummyPlayer());
     }
 
     public Jail dummyJail() {

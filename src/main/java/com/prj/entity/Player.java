@@ -1,33 +1,21 @@
 package com.prj.entity;
 
-import com.org.chained_list.SimpleChainedList;
+import com.org.chained_list.DoubleChainedList;
 
 public class Player {
-    public static double INITIAL_BALANCE = 2500;
-
-    private double balance;
     private String name;
-    private SimpleChainedList<Ground> grounds;
+    private DoubleChainedList<Ground> grounds;
 
     public Player(String name) {
         this.name = name;
-        this.grounds = new SimpleChainedList<>();
-        this.setBalance(INITIAL_BALANCE);
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
+        this.grounds = new DoubleChainedList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public SimpleChainedList getGrounds() {
+    public DoubleChainedList<Ground> getGrounds() {
         return this.grounds;
     }
 }
