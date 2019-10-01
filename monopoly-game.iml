@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependencies/aula-ed.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/aula-ed.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
