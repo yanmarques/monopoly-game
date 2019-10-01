@@ -1,16 +1,23 @@
 package com.prj.entity;
 
 import com.prj.TestCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest extends TestCase {
+    private Player player;
+
+    @BeforeEach
+    public void setUp() {
+        this.player = this.dummyPlayer();
+    }
+
     @Test
     public void createPlayerWithDefaults() {
         String expectedName = "foo";
-
-        Player player = this.dummyPlayer(expectedName);
+        player = this.dummyPlayer(expectedName);
 
         assertEquals(player.getName(), expectedName);
         assertEquals(player.getBalance(), Player.INITIAL_BALANCE);
@@ -30,11 +37,8 @@ public class PlayerTest extends TestCase {
     @Test
     public void setsNewValueAsBalance() {
         double expectedBalance = 1;
-
-        Player player = this.dummyPlayer();
         player.setBalance(expectedBalance);
 
         assertEquals(player.getBalance(), expectedBalance);
     }
-
 }

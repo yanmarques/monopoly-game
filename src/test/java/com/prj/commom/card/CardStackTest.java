@@ -2,6 +2,7 @@ package com.prj.commom.card;
 
 import com.org.Node;
 import com.org.stack.Stack;
+import com.prj.TestCase;
 import com.prj.commom.Dice;
 import com.prj.commom.StackedFakeRandom;
 import com.prj.entity.PathBoard;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CardStackTest {
+public class CardStackTest extends TestCase {
     @Test
     public void takeMultipleCardInOrder() {
         int expectedCalls = 1;
