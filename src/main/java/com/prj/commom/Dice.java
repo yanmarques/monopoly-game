@@ -13,6 +13,10 @@ public class Dice {
         return nextPositiveInt(6) + nextPositiveInt(6);
     }
 
+    public static boolean tryLuck() {
+        return nextInt(6) == nextInt(6);
+    }
+
     public static int nextInt(int bound) {
         return randGen.nextInt(bound);
     }
