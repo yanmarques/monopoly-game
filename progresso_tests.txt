@@ -2,3 +2,6 @@
     - [X] dados
     - [X] pilha de cartas sorte/azar
     - [X] nós no tabuleiro
+    - [X] jogador
+    - [X] prisioneiro
+    - [X] cartas de liberaçao da prisão
