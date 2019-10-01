@@ -29,6 +29,7 @@
         <dependency>
             <groupId>com.org.structures</groupId>
             <artifactId>data-structures-impl</artifactId>
+            <version>1.0</version>
         </dependency>
 
 
