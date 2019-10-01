@@ -1,17 +1,44 @@
 package com.prj.entity;
 
 import com.prj.TestCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest extends TestCase {
+    private Player player;
+
+    @BeforeEach
+    public void setUp() {
+        this.player = this.dummyPlayer();
+    }
+
     @Test
     public void createPlayerWithDefaults() {
         String expectedName = "baz";
-        Player player = this.dummyPlayer(expectedName);
+        player = this.dummyPlayer(expectedName);
 
         assertEquals(player.getName(), expectedName);
-        assertTrue(player.getGrounds().isEmpty());
+        assertFalse(player.hasGrounds());
+        assertNull(player.getFirstGround());
+    }
+
+    @Test
+    public void registerAGroundWithCurrentOwner() {
+        Ground ground = this.dummyGround(1);
+        player.register(ground);
+
+        assertEquals(player.getFirstGround(), ground);
+        assertEquals(ground.getOwner(), player);
+    }
+
+    @Test
+    public void unregisterAGround() {
+        Ground ground = this.dummyGround(1);
+        player.register(ground);
+        player.unregister(ground);
+
+        assertFalse(player.hasGrounds());
     }
 }

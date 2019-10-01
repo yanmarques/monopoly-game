@@ -4,8 +4,10 @@ import com.org.Node;
 import com.org.stack.Stack;
 import com.prj.commom.Dice;
 import com.prj.commom.StackedFakeRandom;
+import com.prj.entity.Ground;
 import com.prj.entity.Player;
 import com.prj.entity.bank.Account;
+import com.prj.entity.bank.Banker;
 import com.prj.entity.prison.Jail;
 import com.prj.entity.prison.LiberationCard;
 import com.prj.entity.prison.Prisioner;
@@ -19,8 +21,16 @@ public class TestCase {
         Dice.setRandGenerator(new Random());
     }
 
+    public Ground dummyGround(long price) {
+        return new Ground(price, this.dummyPlayer());
+    }
+
     public Account dummyAccount() {
         return new Account(this.dummyPlayer());
+    }
+
+    public Banker dummyBanker() {
+        return new Banker();
     }
 
     public Jail dummyJail() {
