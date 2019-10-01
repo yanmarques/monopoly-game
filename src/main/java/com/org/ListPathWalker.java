@@ -20,7 +20,7 @@ abstract public class ListPathWalker<T> extends MemoryList<T> implements PathWal
     public void forwardTo(int position, boolean checkPositive) {
         this.ensurePositionExists(position, checkPositive);
 
-        this.resetNode();
+        this.resetToInitialNode();
         while (this.getCurrentPosition() < position) {
             this.forwardOperation();
         }
@@ -30,7 +30,7 @@ abstract public class ListPathWalker<T> extends MemoryList<T> implements PathWal
     public void backwardTo(int position, boolean checkPositive) {
         this.ensurePositionExists(position, checkPositive);
 
-        this.resetNode();
+        this.resetToLastNode();
         while (this.getCurrentPosition() > position) {
             this.backwardOperation();
         }
@@ -40,9 +40,17 @@ abstract public class ListPathWalker<T> extends MemoryList<T> implements PathWal
         this.currentPosition = currentPosition;
     }
 
-    protected void resetNode() {
-        this.currentNode = this.getInitial();
-        this.setCurrentPosition(0);
+    protected void resetToInitialNode() {
+        this.resetCurrentNode(this.getInitial(), 0);
+    }
+
+    protected void resetToLastNode() {
+        this.resetCurrentNode(this.getLast(), this.getSize() - 1);
+    }
+
+    protected void resetCurrentNode(Node<T> nextNode, int currentPosition) {
+        this.currentNode = nextNode;
+        this.setCurrentPosition(currentPosition);
     }
 
     protected void forwardOperation() {

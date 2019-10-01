@@ -44,7 +44,7 @@ public class Stack<T> extends ListPathWalker<T> implements StorageAccessor<T> {
     public ArrayList<Node<T>> toArray() {
         ArrayList<Node<T>> stack = new ArrayList<>();
 
-        this.resetNode();
+        this.resetToInitialNode();
         while (this.getCurrentNode() != null) {
             stack.add(this.getCurrentNode());
             this.backwardOperation();
