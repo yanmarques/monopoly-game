@@ -26,6 +26,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.org.structures</groupId>
+            <artifactId>data-structures-impl</artifactId>
+        </dependency>
+
 
     </dependencies>
     <build>
@@ -51,8 +56,8 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <groupId>com.org.data-structures</groupId>
-                            <artifactId>data-structures</artifactId>
+                            <groupId>com.org.structures</groupId>
+                            <artifactId>data-structures-impl</artifactId>
                             <version>1.0</version>
                             <packaging>jar</packaging>
                             <file>${basedir}/lib/aula-ed.jar</file>
