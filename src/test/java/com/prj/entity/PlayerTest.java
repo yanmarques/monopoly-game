@@ -1,11 +1,11 @@
-package com.prj.commom;
+package com.prj.entity;
 
-import com.prj.entity.Player;
+import com.prj.TestCase;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerTest {
+public class PlayerTest extends TestCase {
     @Test
     public void createPlayerWithDefaults() {
         String expectedName = "foo";
@@ -15,7 +15,6 @@ public class PlayerTest {
         assertEquals(player.getName(), expectedName);
         assertEquals(player.getBalance(), Player.INITIAL_BALANCE);
         assertTrue(player.getGrounds().isEmpty());
-        assertFalse(player.hasLiberationCards());
     }
 
     @Test
@@ -38,28 +37,4 @@ public class PlayerTest {
         assertEquals(player.getBalance(), expectedBalance);
     }
 
-    @Test
-    public void doNotUseLiberationCardsWhenNoCards() {
-        Player player = this.dummyPlayer();
-        assertThrows(IllegalAccessError.class, player::useLiberationCard);
-    }
-
-    @Test
-    public void useReceivedLiberationCard() {
-        Player player = this.dummyPlayer();
-
-        player.receiveLiberationCard();
-        assertTrue(player.hasLiberationCards());
-
-        player.useLiberationCard();
-        assertFalse(player.hasLiberationCards());
-    }
-
-    private Player dummyPlayer(String name) {
-        return new Player(name);
-    }
-
-    private Player dummyPlayer() {
-        return this.dummyPlayer("foo");
-    }
 }
