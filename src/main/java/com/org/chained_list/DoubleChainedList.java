@@ -2,7 +2,9 @@ package com.org.chained_list;
 
 import com.org.Node;
 
-public class DoubleChainedList<T> extends ForwardChainedMemory<T> {
+public class DoubleChainedList<T> extends PositionedMemoryAccess<T> {
+    private boolean resetOverride = false;
+
     @Override
     public void insert(int position, Node<T> node) throws ArrayIndexOutOfBoundsException {
         this.ensurePositionExists(position, true);
@@ -90,5 +92,49 @@ public class DoubleChainedList<T> extends ForwardChainedMemory<T> {
 
         this.decrementSize();
         return target;
+    }
+
+    @Override
+    protected Node<T> offsetGet(int position) throws ArrayIndexOutOfBoundsException {
+        boolean forwarding = false;
+        boolean shouldReset = false;
+        int firstPath, secondPath;
+
+        if (position > this.getCurrentPosition()) {
+            firstPath = this.getSize() - position;
+            secondPath = position - this.getCurrentPosition();
+            if (secondPath < firstPath) {
+                forwarding = true;
+            } else {
+                shouldReset = true;
+            }
+        } else {
+            firstPath = position;
+            secondPath = this.getCurrentPosition() - position;
+            if (firstPath < secondPath) {
+                forwarding = shouldReset = true;
+            }
+        }
+
+        this.resetOverride = shouldReset;
+        this.binaryPointerMove(forwarding, position);
+        this.resetOverride = false;
+
+        return this.getCurrentNode();
+    }
+
+    @Override
+    protected void resetCurrentNode(Node<T> nextNode, int currentPosition) {
+        if (this.getCurrentNode() == null || this.resetOverride) {
+            super.resetCurrentNode(nextNode, currentPosition);
+        }
+    }
+
+    protected void binaryPointerMove(boolean forwarding, int position) {
+        if (forwarding) {
+            this.forwardTo(position, true);
+        } else {
+            this.backwardTo(position, true);
+        }
     }
 }

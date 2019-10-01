@@ -25,13 +25,6 @@ public class PositionedCircularList<T> extends DoubleCircledList<T> {
     }
 
     @Override
-    protected void resetNode() {
-        if (this.getCurrentNode() == null) {
-            super.resetNode();
-        }
-    }
-
-    @Override
     protected void forwardOperation() {
         if (this.getCurrentPosition() >= this.getSize()) {
             this.setCurrentPosition(0);
@@ -42,10 +35,15 @@ public class PositionedCircularList<T> extends DoubleCircledList<T> {
 
     @Override
     protected void backwardOperation() {
-        if (this.getCurrentPosition() == -1) {
+        if (this.getCurrentPosition() < 0) {
             this.setCurrentPosition(this.getSize() - 1);
         }
 
         super.backwardOperation();
+    }
+
+    @Override
+    protected void ensurePositionExists(int position, boolean checkPositive) throws ArrayIndexOutOfBoundsException {
+        //
     }
 }
