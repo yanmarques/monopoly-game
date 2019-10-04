@@ -1,20 +1,18 @@
 package com.prj.entity.prison;
 
 import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
 import com.prj.entity.Player;
 
-import java.util.ArrayList;
 
 public class Jail {
-    private DoubleCircledList<Prisioner> prisioners;
-    private ArrayList<String> ids;
-    private DoubleCircledList<LiberationCard> liberationCards;
+    private DoubleChainedList<Prisioner> prisioners;
+    private DoubleChainedList<LiberationCard> liberationCards;
 
     public Jail() {
-        this.prisioners = new DoubleCircledList<>();
-        this.liberationCards = new DoubleCircledList<>();
-        this.ids = new ArrayList<>();
+        this.prisioners = new DoubleChainedList<>();
+        this.liberationCards = new DoubleChainedList<>();
     }
 
     public void arrest(Player player) throws IllegalArgumentException {
@@ -24,13 +22,11 @@ public class Jail {
 
         Prisioner jailed = new Prisioner(player);
         this.prisioners.insertLast(new Node<>(jailed));
-        this.ids.add(this.identifyPlayer(player));
     }
 
     public DoubleCircledList<Player> liberate() {
         DoubleCircledList<Player> people = new DoubleCircledList<>();
-        for (int i = 0; i < this.prisioners.getSize(); i++) {
-            Prisioner prisioner = this.prisioners.get(i).getValue();
+        for (Prisioner prisioner : this.prisioners) {
             Player player = prisioner.getPlayer();
 
             if (prisioner.isFree()) {
@@ -47,7 +43,13 @@ public class Jail {
     }
 
     public boolean isJailed(Player player) {
-        return this.ids.contains(this.identifyPlayer(player));
+        for (Prisioner prisioner : this.prisioners) {
+            if (prisioner.getPlayer() == player) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void addCardCreditTo(Player player) {
@@ -72,16 +74,13 @@ public class Jail {
     }
 
     private LiberationCard getLiberationCard(Player player) {
-        LiberationCard card = null;
-        for (int i = 0; i < this.liberationCards.getSize(); i++) {
-            card = this.liberationCards.get(i).getValue();
-
+        for (LiberationCard card : this.liberationCards) {
             if (card.getPlayer() == player) {
                 return card;
             }
         }
 
-        return card;
+        return null;
     }
 
     private void handleFinancialStuff(Prisioner prisioner) {
@@ -94,15 +93,7 @@ public class Jail {
     }
 
     private void terminateStay(Prisioner freeMan) {
-        this.ids.remove(this.identifyPlayer(freeMan.getPlayer()));
-
-        for (int i = 0; i < this.prisioners.getSize(); i++) {
-            Prisioner prisioner = this.prisioners.get(i).getValue();
-            if (prisioner == freeMan) {
-                this.prisioners.remove(i);
-                break;
-            }
-        }
+        this.prisioners.remove(freeMan);
     }
 
     private boolean useCardCreditFrom(Prisioner prisioner) {
@@ -115,9 +106,5 @@ public class Jail {
         }
 
         return false;
-    }
-
-    private String identifyPlayer(Player player) {
-        return String.valueOf(player.hashCode());
     }
 }

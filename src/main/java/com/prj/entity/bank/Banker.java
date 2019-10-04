@@ -1,20 +1,18 @@
 package com.prj.entity.bank;
 
 import com.org.Node;
-import com.org.circle.DoubleCircledList;
+import com.org.chained_list.DoubleChainedList;
 import com.prj.entity.Ground;
 import com.prj.entity.Player;
-
-import java.util.ArrayList;
 
 public class Banker extends Player {
     public static String NAME = "BANQUEIRO";
 
-    private DoubleCircledList<Account> accounts;
+    private DoubleChainedList<Account> accounts;
 
     public Banker() {
         super(NAME);
-        this.accounts = new DoubleCircledList<>();
+        this.accounts = new DoubleChainedList<>();
         InternalAccount superAccount = new InternalAccount(this);
         this.accounts.insertLast(new Node<>(superAccount));
     }
@@ -23,15 +21,12 @@ public class Banker extends Player {
         this.accounts.insertLast(new Node<>(new Account(player)));
     }
 
-    public ArrayList<Player> getDefaultings() {
-        ArrayList<Player> defaultings = new ArrayList<>();
-        Account account;
+    public DoubleChainedList<Player> getDefaultings() {
+        DoubleChainedList<Player> defaultings = new DoubleChainedList<>();
 
-        for (int i = 0; i < this.accounts.getSize(); i++) {
-            account = this.accounts.get(i).getValue();
-
+        for (Account account : this.accounts) {
             if (account.isDefaulting()) {
-                defaultings.add(account.getPlayer());
+                defaultings.insertLast(new Node<>(account.getPlayer()));
             }
         }
 
@@ -59,19 +54,18 @@ public class Banker extends Player {
     public boolean hasAccount(Player player) {
         try {
             this.findAccount(player);
-            return true;
         } catch (IllegalArgumentException e) {
             return false;
         }
+
+        return true;
     }
 
     public void give(Player player, double amount) throws IllegalArgumentException {
         assert amount > 0;
         Account account = this.findAccount(player);
         double updatedBalance = account.getBalance() + amount;
-        synchronized (this) {
-            account.setBalance(updatedBalance);
-        }
+        this.setAccountBalance(account, updatedBalance);
     }
 
     public double getBalance(Player player) {
@@ -110,10 +104,7 @@ public class Banker extends Player {
     }
 
     private Account findAccount(Player player) throws IllegalArgumentException {
-        Account account;
-        for (int i = 0; i < this.accounts.getSize(); i++) {
-            account = this.accounts.get(i).getValue();
-
+        for (Account account : this.accounts) {
             if (account.getPlayer() == player) {
                 return account;
             }

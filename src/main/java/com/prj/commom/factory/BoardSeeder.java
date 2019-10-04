@@ -1,5 +1,7 @@
 package com.prj.commom.factory;
 
+import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 import com.prj.commom.BoardNode;
 import com.prj.commom.Dice;
 import com.prj.entity.PathBoard;
@@ -35,12 +37,13 @@ public class BoardSeeder {
     }
 
     private BoardNode generateGround(Player banker) {
-        ArrayList<Integer> prices = new ArrayList<>();
+        DoubleChainedList<Integer> prices = new DoubleChainedList<>();
         for (int i = 10; i <= GROUND_PRICE_RANGE; i += 10) {
-            prices.add(i);
+            prices.insertLast(new Node<>(i));
         }
 
-        int randPrice = prices.get(Dice.nextInt(prices.size()));
+        int randBoundNumber = Dice.nextInt(prices.getSize());
+        int randPrice = prices.get(randBoundNumber).getValue();
         long price = Dice.nextPositiveInt(randPrice) * GROUND_PRICE_MULTIPLIER;
 
         Ground ground = new Ground(price, banker);

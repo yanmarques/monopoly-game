@@ -1,5 +1,6 @@
 package com.prj.entity.bank;
 
+import com.org.chained_list.DoubleChainedList;
 import com.prj.TestCase;
 import com.prj.entity.Ground;
 import com.prj.entity.Player;
@@ -84,7 +85,7 @@ public class BankerTest extends TestCase {
         banker.createAccount(player);
         banker.charge(player, chargeAmount);
 
-        ArrayList<Player> defaultings = banker.getDefaultings();
+        DoubleChainedList<Player> defaultings = banker.getDefaultings();
         assertTrue(defaultings.isEmpty());
 
         assertEquals(banker.getBalance(player), 0);
@@ -123,8 +124,8 @@ public class BankerTest extends TestCase {
 
         assertEquals(banker.getBalance(player), -1);
 
-        ArrayList<Player> defaultings = banker.getDefaultings();
-        assertEquals(defaultings.size(), 1);
-        assertEquals(defaultings.get(0), player);
+        DoubleChainedList<Player> defaultings = banker.getDefaultings();
+        assertEquals(defaultings.getSize(), 1);
+        assertEquals(defaultings.get(0).getValue(), player);
     }
 }

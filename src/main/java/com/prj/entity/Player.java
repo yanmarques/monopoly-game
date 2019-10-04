@@ -22,13 +22,7 @@ public class Player {
     }
 
     public void unregister(Ground ground) {
-        for (int i = 0; i < this.grounds.getSize(); i++) {
-            Ground foundGround = this.grounds.get(i).getValue();
-            if (foundGround == ground) {
-                this.grounds.remove(i);
-                break;
-            }
-        }
+        this.grounds.remove(ground);
     }
 
     public boolean hasGrounds() {
