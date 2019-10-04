@@ -5,7 +5,7 @@
  For data structure class.
  
  ### Installation
-*If you are a maintainer or curious this branch is for you, otherwise I suggest you going with master.*
+*If you are a maintainer or curious this branch is for you, otherwise I suggest you going with [master](https://github.com/yanmarques/monopoly-game/tree/master).*
 
 The game depends on the proposed data structures implementations. You will first download the latest release build,
 or source code when you want to build by yourself, go [here](https://github.com/yanmarques/aula-ed/releases/download/untagged-e7ff7f8ceb27a1575123/aula-ed.jar). 
