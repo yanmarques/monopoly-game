@@ -7,7 +7,6 @@ import com.prj.entity.Ground;
 import com.prj.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BoardSeeder {
     public static int SIZE = 38;
@@ -17,12 +16,11 @@ public class BoardSeeder {
     public static int GROUND_PRICE_RANGE = 90;
 
     public void seedBoard(PathBoard board) {
-        Random rand = new Random();
         int i, j;
         i = 0;
 
         while (i < SIZE) {
-            j = rand.nextInt(TOTAL_PROPORTION);
+            j = Dice.nextInt(TOTAL_PROPORTION);
 
             if (j < GROUND_PROPORTION) {
                 BoardNode groundNode = this.generateGround(board.getBanker());
@@ -42,7 +40,7 @@ public class BoardSeeder {
             prices.add(i);
         }
 
-        int randPrice = prices.get(Dice.nextPositiveInt(prices.size()));
+        int randPrice = prices.get(Dice.nextInt(prices.size()));
         long price = Dice.nextPositiveInt(randPrice) * GROUND_PRICE_MULTIPLIER;
 
         Ground ground = new Ground(price, banker);

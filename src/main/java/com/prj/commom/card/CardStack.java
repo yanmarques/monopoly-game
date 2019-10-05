@@ -4,53 +4,45 @@ import com.org.Node;
 import com.org.stack.Stack;
 import com.prj.commom.Dice;
 import com.prj.entity.PathBoard;
-import com.prj.commom.card.un_luckies.PayMoney;
 import com.prj.entity.Player;
 
 public class CardStack {
-    final public int SIZE = 60;
+    public static int SIZE = 60;
 
     private Stack<LuckyCard> stack;
     private PathBoard runningBoard;
+    private LuckyCard[] cards;
 
-    public CardStack(PathBoard board) {
+    public CardStack(PathBoard board, LuckyCard[] cards) {
         this.stack = new Stack<>();
         this.runningBoard = board;
-        this.generateRandomNotices();
+        this.setCards(cards);
+    }
+
+    public void setCards(LuckyCard[] cards) {
+        this.cards = cards;
     }
 
     public void take(Player player) {
         if (this.stack.isEmpty()) {
-            this.generateRandomNotices();
+            this.generateRandomCards();
         }
 
         LuckyCard card = this.stack.remove().getValue();
         card.execute(player, this.runningBoard);
     }
 
-    private void generateRandomNotices() {
-        LuckyCard nextCard = null;
+    private void generateRandomCards() {
+        LuckyCard nextCard;
         int i, randValue;
+
         i = 0;
 
         do {
-            randValue = Dice.nextPositiveInt(3);
-            switch (randValue) {
-                case 1:
-                    //valor a pagar
-                    nextCard = new PayMoney();
-                    break;
-                case 2:
-                    //valor a cobrar
-                    break;
-                case 3:
-                    //prisao
-                    break;
-                 default:
-                     throw new RuntimeException("Invalid value for cards!");
-            }
+            randValue = Dice.nextInt(this.cards.length);
+            nextCard = this.cards[randValue];
             this.stack.insert(new Node<>(nextCard));
             i++;
-        }while(i < this.SIZE);
+        } while (i < SIZE);
     }
 }

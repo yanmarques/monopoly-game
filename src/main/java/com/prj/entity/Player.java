@@ -1,33 +1,45 @@
 package com.prj.entity;
 
-import com.org.chained_list.SimpleChainedList;
+import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 
 public class Player {
-    final public int INITIAL_BALANCE = 2500;
-
-    private double balance;
     private String name;
-    private SimpleChainedList<Ground> grounds;
+    private DoubleChainedList<Ground> grounds;
 
     public Player(String name) {
         this.name = name;
-        this.balance = this.INITIAL_BALANCE;
-        this.grounds = new SimpleChainedList<>();
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
+        this.grounds = new DoubleChainedList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public SimpleChainedList getGrounds() {
-        return this.grounds;
+    public void register(Ground ground) {
+        ground.setOwner(this);
+        this.grounds.insertLast(new Node<>(ground));
+    }
+
+    public void unregister(Ground ground) {
+        for (int i = 0; i < this.grounds.getSize(); i++) {
+            Ground foundGround = this.grounds.get(i).getValue();
+            if (foundGround == ground) {
+                this.grounds.remove(i);
+                break;
+            }
+        }
+    }
+
+    public boolean hasGrounds() {
+        return ! this.grounds.isEmpty();
+    }
+
+    public Ground getFirstGround() {
+        if (this.hasGrounds()) {
+            return this.grounds.getInitial().getValue();
+        }
+
+        return null;
     }
 }

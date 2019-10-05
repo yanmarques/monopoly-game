@@ -1,1 +1,5 @@
 language: java
+
+before_install:
+  - mkdir lib/
+  - wget https://github.com/yanmarques/aula-ed/releases/download/v0.1-alpha/aula-ed.jar -O lib/aula-ed.jar
