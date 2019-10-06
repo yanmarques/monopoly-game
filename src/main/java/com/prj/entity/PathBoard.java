@@ -1,9 +1,9 @@
 package com.prj.entity;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
 import com.prj.commom.BoardNode;
 import com.prj.commom.Logger;
@@ -71,6 +71,7 @@ public class PathBoard {
         for (Player player : this.jail.liberate()) {
             oldPosition = this.findPrisionerPosition(player);
             this.players.put(player, oldPosition);
+            this.prisioners.remove(player);
         }
 
         for (Player player : getBanker().getDefaultings()) {
@@ -87,8 +88,18 @@ public class PathBoard {
         this.board.insertLast(new Node<>(node));
     }
     
-    public Set<Player> getPlayers() {
-    	return this.players.keySet();
+    public DoubleChainedList<Player> getPlayers() {
+        DoubleChainedList<Player> players = new DoubleChainedList<>();
+
+        for (Player player : this.players.keySet()) {
+            players.insertLast(new Node<>(player));
+        }
+
+    	return players;
+    }
+
+    public boolean hasPlayers() {
+        return ! getPlayers().isEmpty() || ! prisioners.isEmpty();
     }
 
     private int findPosition(Player player) {

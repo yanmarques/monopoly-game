@@ -29,8 +29,8 @@ public class Jail {
         this.prisioners.insertLast(new Node<>(jailed));
     }
 
-    public DoubleCircledList<Player> liberate() {
-        DoubleCircledList<Player> people = new DoubleCircledList<>();
+    public DoubleChainedList<Player> liberate() {
+        DoubleChainedList<Player> people = new DoubleChainedList<>();
         for (Prisioner prisioner : this.prisioners) {
             Player player = prisioner.getPlayer();
 

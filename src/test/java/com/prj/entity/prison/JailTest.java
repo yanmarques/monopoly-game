@@ -1,6 +1,7 @@
 package com.prj.entity.prison;
 
 import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
 import com.prj.TestCase;
 import com.prj.entity.Player;
@@ -33,7 +34,7 @@ public class JailTest extends TestCase {
         jail.arrest(badGuy);
 
         this.getLuck();
-        DoubleCircledList<Player> liberatedPlayers = jail.liberate();
+        DoubleChainedList<Player> liberatedPlayers = jail.liberate();
 
         assertTrue(liberatedPlayers.isEmpty());
         assertTrue(jail.isJailed(badGuy));
@@ -44,7 +45,7 @@ public class JailTest extends TestCase {
     public void playerIsLiberatedAfterMaximumAttempts() {
         Player badGuy = this.dummyPlayer();
 
-        DoubleCircledList<Player> liberatedPlayers;
+        DoubleChainedList<Player> liberatedPlayers;
 
         jail.arrest(badGuy);
         for (int i = 0; i < Prisioner.MAXIMUM_ATTEMPTS; i++) {
