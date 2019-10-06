@@ -2,19 +2,25 @@ package com.prj.entity.bank;
 
 import com.org.Node;
 import com.org.chained_list.DoubleChainedList;
-import com.prj.entity.Ground;
+import com.prj.entity.building.Ground;
 import com.prj.entity.Player;
 
 public class Banker extends Player {
     public static String NAME = "BANQUEIRO";
 
     private DoubleChainedList<Account> accounts;
+    private Registry registry;
 
     public Banker() {
         super(NAME);
         this.accounts = new DoubleChainedList<>();
         InternalAccount superAccount = new InternalAccount(this);
         this.accounts.insertLast(new Node<>(superAccount));
+        this.registry = new Registry(this);
+    }
+
+    public Registry getRegistry() {
+        return registry;
     }
 
     public void createAccount(Player player) {
@@ -43,7 +49,7 @@ public class Banker extends Player {
         if (playerBalance >= amount) {
             this.setAccountBalance(account, credit);
         } else {
-            if (this.sellFirstBuilding(account)) {
+            if (this.tryNegotiateFunds(account)) {
                 this.charge(player, amount);
             } else {
                 this.setAccountBalance(account, credit);
@@ -82,16 +88,7 @@ public class Banker extends Player {
         }
     }
 
-    public void sell(Ground ground, Player buyer) throws IllegalArgumentException {
-        Player owner = ground.getOwner();
-
-        this.transfer(buyer, owner, ground.getPrice());
-
-        buyer.register(ground);
-        owner.unregister(ground);
-    }
-
-    private boolean sellFirstBuilding(Account account) {
+    private boolean tryNegotiateFunds(Account account) {
         Ground groundToSell = account.getPlayer().getFirstGround();
 
         if (groundToSell == null) {
@@ -99,7 +96,7 @@ public class Banker extends Player {
         }
 
         // sell the ground for the bank
-        this.sell(groundToSell, this);
+        this.getRegistry().sell(groundToSell, this);
         return true;
     }
 
