@@ -1,6 +1,6 @@
 package com.prj.commom;
 
-import com.prj.entity.Ground;
+import com.prj.entity.building.Ground;
 
 public class BoardNode {
     private boolean isStart = false;

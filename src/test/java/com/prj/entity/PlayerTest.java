@@ -1,6 +1,7 @@
 package com.prj.entity;
 
 import com.prj.TestCase;
+import com.prj.entity.building.Ground;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

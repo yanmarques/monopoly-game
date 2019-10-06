@@ -5,3 +5,5 @@
     - [X] jogador
     - [X] prisioneiro
     - [X] cartas de liberaçao da prisão
+    - [x] banqueiro/operações bancárias
+    - [x] contas no banco
