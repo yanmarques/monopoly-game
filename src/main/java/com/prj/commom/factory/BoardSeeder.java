@@ -16,24 +16,26 @@ public class BoardSeeder {
     public static long GROUND_PRICE_MULTIPLIER = 100;
     public static int GROUND_PRICE_RANGE = 90;
 
-    public void seedBoard(PathBoard board) {
-        int i, j;
-        i = 0;
+	public PathBoard seedBoard() {
 
-        while (i < SIZE) {
-            j = Dice.nextInt(TOTAL_PROPORTION);
+		PathBoard board = new PathBoard();
+		int i, j;
+		i = 0;
 
-            if (j < GROUND_PROPORTION) {
-                BoardNode groundNode = this.generateGround(board.getBanker());
-                board.append(groundNode);
-            } else {
-                BoardNode luckyCardNode = new BoardNode(false);
-                board.append(luckyCardNode);
-            }
+		while (i < SIZE) {
+			j = Dice.nextInt(TOTAL_PROPORTION);
 
-            i++;
-        }
-    }
+			if (j < GROUND_PROPORTION) {
+				BoardNode groundNode = this.generateGround(board.getBanker());
+				board.append(groundNode);
+			} else {
+				BoardNode luckyCardNode = new BoardNode(false);
+				board.append(luckyCardNode);
+			}
+			i++;
+		}
+		return board;
+	}
 
     private BoardNode generateGround(Player banker) {
         DoubleChainedList<Integer> prices = new DoubleChainedList<>();

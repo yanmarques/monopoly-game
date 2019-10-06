@@ -1,12 +1,13 @@
 package com.prj.entity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.org.Node;
-import com.org.circle.DoubleCircledList;
 import com.org.circle.PositionedCircularList;
 import com.prj.commom.BoardNode;
 import com.prj.entity.bank.Banker;
-
-import java.util.HashMap;
 
 public class PathBoard {
     private PositionedCircularList<BoardNode> board;
@@ -44,6 +45,14 @@ public class PathBoard {
 
     public void append(BoardNode node) {
         this.board.insertLast(new Node<>(node));
+    }
+    
+    public List<Player> getPlayers(){
+    	List<Player> lista = new ArrayList<Player>();
+    	for (Player player : this.players.keySet()) {
+			lista.add(player);
+		}
+    	return lista;
     }
 
     private int findPosition(Player player) {
