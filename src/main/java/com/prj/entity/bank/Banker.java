@@ -5,18 +5,21 @@ import com.org.chained_list.DoubleChainedList;
 import com.prj.entity.building.Ground;
 import com.prj.entity.Player;
 
+import java.util.HashMap;
+
 public class Banker extends Player {
     public static String NAME = "BANQUEIRO";
 
-    private DoubleChainedList<Account> accounts;
+    private HashMap<Player, Account> accounts;
     private Registry registry;
 
     public Banker() {
         super(NAME);
-        this.accounts = new DoubleChainedList<>();
-        InternalAccount superAccount = new InternalAccount(this);
-        this.accounts.insertLast(new Node<>(superAccount));
+        this.accounts = new HashMap<>();
         this.registry = new Registry(this);
+
+        InternalAccount superAccount = new InternalAccount(this);
+        this.accounts.put(this, superAccount);
     }
 
     public Registry getRegistry() {
@@ -24,13 +27,13 @@ public class Banker extends Player {
     }
 
     public void createAccount(Player player) {
-        this.accounts.insertLast(new Node<>(new Account(player)));
+        this.accounts.put(player, new Account(player));
     }
 
     public DoubleChainedList<Player> getDefaultings() {
         DoubleChainedList<Player> defaultings = new DoubleChainedList<>();
 
-        for (Account account : this.accounts) {
+        for (Account account : this.accounts.values()) {
             if (account.isDefaulting()) {
                 defaultings.insertLast(new Node<>(account.getPlayer()));
             }
@@ -41,7 +44,7 @@ public class Banker extends Player {
 
     public void charge(Player player, double amount) throws IllegalArgumentException {
         assert amount > 0;
-        Account account = this.findAccount(player);
+        Account account = this.findAccountOrFail(player);
 
         double playerBalance = account.getBalance();
         double credit = playerBalance - amount;
@@ -59,7 +62,7 @@ public class Banker extends Player {
 
     public boolean hasAccount(Player player) {
         try {
-            this.findAccount(player);
+            this.findAccountOrFail(player);
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -69,17 +72,17 @@ public class Banker extends Player {
 
     public void give(Player player, double amount) throws IllegalArgumentException {
         assert amount > 0;
-        Account account = this.findAccount(player);
+        Account account = this.findAccountOrFail(player);
         double updatedBalance = account.getBalance() + amount;
         this.setAccountBalance(account, updatedBalance);
     }
 
     public double getBalance(Player player) {
-        return this.findAccount(player).getBalance();
+        return this.findAccountOrFail(player).getBalance();
     }
 
     public void transfer(Player sender, Player receiver, double amount) {
-        Account senderAccount = this.findAccount(sender);
+        Account senderAccount = this.findAccountOrFail(sender);
         assert amount > 0 && senderAccount.getBalance() >= amount;
 
         synchronized (this) {
@@ -100,14 +103,11 @@ public class Banker extends Player {
         return true;
     }
 
-    private Account findAccount(Player player) throws IllegalArgumentException {
-        for (Account account : this.accounts) {
-            if (account.getPlayer() == player) {
-                return account;
-            }
-        }
-
-        throw new IllegalArgumentException("Any account found for ["+ player.getName() +"].");
+    private Account findAccountOrFail(Player player) throws IllegalArgumentException {
+        Account account = this.accounts.get(player);
+        if (account == null)
+            throw new IllegalArgumentException("Any account found for ["+ player.getName() +"].");
+        return account;
     }
 
     private void setAccountBalance(Account account, double balance) {
