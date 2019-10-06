@@ -2,6 +2,6 @@ package com.prj.entity.building;
 
 public class House extends BaseBuilding {
     public House() {
-        super(1000, 10);
+        super(300, 50);
     }
 }
