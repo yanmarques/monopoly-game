@@ -1,21 +1,20 @@
 package com.prj.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
 
 import com.org.Node;
-import com.org.circle.PositionedCircularList;
+import com.org.circle.DoubleCircledList;
 import com.prj.commom.BoardNode;
 import com.prj.entity.bank.Banker;
 
 public class PathBoard {
-    private PositionedCircularList<BoardNode> board;
+    private DoubleCircledList<BoardNode> board;
     private HashMap<Player, Integer> players;
     private Banker banker;
 
     public PathBoard() {
-        this.board = new PositionedCircularList<>();
+        this.board = new DoubleCircledList<>();
         this.banker = new Banker();
         this.players = new HashMap<>();
 
@@ -27,15 +26,30 @@ public class PathBoard {
         return banker;
     }
 
+    public int getPosition(Player player) {
+        return this.players.get(player);
+    }
+
     public BoardNode movePlayer(Player player, int positions) throws IllegalArgumentException {
         int srcPosition = this.findPosition(player);
+        int targetPosition = srcPosition + positions;
 
-        this.board.forwardTo(srcPosition);
-        this.board.forwardTo(positions);
+        this.board.moveTo(srcPosition);
 
-        this.players.put(player, this.board.getSize());
+        if (positions > 0) {
+            if (targetPosition >= this.board.getSize()) {
+                this.banker.give(player, 200);
+                targetPosition -= this.board.getSize();
+            }
+        }
 
-        return this.board.getCurrentNode().getValue();
+        this.players.put(player, targetPosition);
+        return this.board.moveTo(targetPosition).getValue();
+    }
+
+    public void applyRoutines() {
+        // liberar presos
+        // remover jogadores que devem a banco
     }
 
     public void addPlayer(Player player) {
@@ -47,12 +61,8 @@ public class PathBoard {
         this.board.insertLast(new Node<>(node));
     }
     
-    public List<Player> getPlayers(){
-    	List<Player> lista = new ArrayList<Player>();
-    	for (Player player : this.players.keySet()) {
-			lista.add(player);
-		}
-    	return lista;
+    public Set<Player> getPlayers() {
+    	return this.players.keySet();
     }
 
     private int findPosition(Player player) {

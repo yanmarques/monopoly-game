@@ -1,5 +1,6 @@
 package com.prj;
 
+import com.prj.commom.BoardNode;
 import com.prj.commom.factory.BoardSeeder;
 import com.prj.entity.PathBoard;
 import com.prj.entity.Player;
@@ -20,9 +21,16 @@ public class Main {
 		board.addPlayer(player3);
 		
 		while(!board.getPlayers().isEmpty()) {
-			for (int i = 0; i < board.getPlayers().size(); i++) {
-				board.movePlayer(board.getPlayers().get(i), Dice.play());	
+			for (Player player : board.getPlayers()) {
+				BoardNode node = board.movePlayer(player, Dice.play());
+
+				// verificar se nó é inicio, se sim deve avançar uma casa
+
+				// se nó for carta sorte/azar -> executar carta
+				// se for um terreno, comprar se terreno estiver disponível e tiver dinheiro
 			}
+
+			board.applyRoutines();
 		}
 	}
 }
