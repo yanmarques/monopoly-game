@@ -6,17 +6,22 @@ import java.util.Set;
 import com.org.Node;
 import com.org.circle.DoubleCircledList;
 import com.prj.commom.BoardNode;
+import com.prj.commom.Logger;
 import com.prj.entity.bank.Banker;
+import com.prj.entity.prison.Jail;
 
 public class PathBoard {
     private DoubleCircledList<BoardNode> board;
-    private HashMap<Player, Integer> players;
+    private HashMap<Player, Integer> players, prisioners;
     private Banker banker;
+    private Jail jail;
 
     public PathBoard() {
         this.board = new DoubleCircledList<>();
         this.banker = new Banker();
         this.players = new HashMap<>();
+        this.prisioners = new HashMap<>();
+        this.jail = new Jail(getBanker());
 
         BoardNode startNode = new BoardNode(true);
         this.append(startNode);
@@ -26,11 +31,23 @@ public class PathBoard {
         return banker;
     }
 
+    public void putInJail(Player player) {
+        int position = this.findPosition(player);
+        this.removePlayer(player);
+        this.jail.arrest(player);
+        this.prisioners.put(player, position);
+    }
+
     public int getPosition(Player player) {
         return this.players.get(player);
     }
 
+    public DoubleCircledList<BoardNode> getBoard() {
+        return board;
+    }
+
     public BoardNode movePlayer(Player player, int positions) throws IllegalArgumentException {
+        Logger.shPlayer(player, "moving "+ positions +" positions.");
         int srcPosition = this.findPosition(player);
         int targetPosition = srcPosition + positions;
 
@@ -38,7 +55,9 @@ public class PathBoard {
 
         if (positions > 0) {
             if (targetPosition >= this.board.getSize()) {
+                Logger.shPlayer(player, "completed a round.");
                 this.banker.give(player, 200);
+                this.banker.getRegistry().chargeTaxes(player);
                 targetPosition -= this.board.getSize();
             }
         }
@@ -48,8 +67,15 @@ public class PathBoard {
     }
 
     public void applyRoutines() {
-        // liberar presos
-        // remover jogadores que devem a banco
+        int oldPosition;
+        for (Player player : this.jail.liberate()) {
+            oldPosition = this.findPrisionerPosition(player);
+            this.players.put(player, oldPosition);
+        }
+
+        for (Player player : getBanker().getDefaultings()) {
+            this.removePlayer(player);
+        }
     }
 
     public void addPlayer(Player player) {
@@ -70,5 +96,16 @@ public class PathBoard {
         if (position == null)
             throw new IllegalArgumentException("Player ["+ player.getName() +"] is not in the board.");
         return position;
+    }
+
+    private int findPrisionerPosition(Player player) {
+        Integer position = this.prisioners.get(player);
+        if (position == null)
+            throw new IllegalArgumentException("Prisioner ["+ player.getName() +"] is not in the board.");
+        return position;
+    }
+
+    private void removePlayer(Player player) {
+        this.players.remove(player);
     }
 }

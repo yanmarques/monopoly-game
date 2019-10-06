@@ -3,6 +3,7 @@ package com.prj.commom.card;
 import com.org.Node;
 import com.org.stack.Stack;
 import com.prj.commom.Dice;
+import com.prj.commom.Logger;
 import com.prj.entity.PathBoard;
 import com.prj.entity.Player;
 
@@ -28,6 +29,7 @@ public class CardStack {
             this.generateRandomCards();
         }
 
+        Logger.shPlayer(player, "taking a lucky card...");
         LuckyCard card = this.stack.remove().getValue();
         card.execute(player, this.runningBoard);
     }

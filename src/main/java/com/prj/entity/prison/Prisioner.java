@@ -3,6 +3,7 @@ package com.prj.entity.prison;
 import com.org.Node;
 import com.org.queue.Queue;
 import com.prj.commom.Dice;
+import com.prj.commom.Logger;
 import com.prj.entity.Player;
 
 import java.util.concurrent.Callable;
@@ -27,6 +28,7 @@ public class Prisioner {
     }
 
     public boolean attemptLiberationCard() {
+        Logger.shPlayer(player, "trying get liberation card on luck...");
         try {
             return this.remainingAttempts.remove().getValue().call();
         } catch (Exception e) {

@@ -34,7 +34,7 @@ public class TestCase {
     }
 
     public Jail dummyJail() {
-        return new Jail();
+        return new Jail(this.dummyBanker());
     }
 
     public Prisioner dummyPrisioner() {

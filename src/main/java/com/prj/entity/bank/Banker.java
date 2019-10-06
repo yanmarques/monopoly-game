@@ -2,6 +2,7 @@ package com.prj.entity.bank;
 
 import com.org.Node;
 import com.org.chained_list.DoubleChainedList;
+import com.prj.commom.Logger;
 import com.prj.entity.building.Ground;
 import com.prj.entity.Player;
 
@@ -26,7 +27,12 @@ public class Banker extends Player {
         return registry;
     }
 
-    public void createAccount(Player player) {
+    public void createAccount(Player player) throws IllegalArgumentException {
+        if (hasAccount(player)) {
+            throw new IllegalArgumentException("Player "+ player.getName() +"already has an account.");
+        }
+
+        Logger.shPlayer(player, "creating account...");
         this.accounts.put(player, new Account(player));
     }
 
@@ -111,8 +117,11 @@ public class Banker extends Player {
     }
 
     private void setAccountBalance(Account account, double balance) {
+        double oldBalance = account.getBalance();
         synchronized (this) {
             account.setBalance(balance);
         }
+        Logger.shPlayer(account.getPlayer(), "old balance: R$"+ oldBalance);
+        Logger.shPlayer(account.getPlayer(), "new balance: R$"+ account.getBalance());
     }
 }

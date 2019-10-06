@@ -3,16 +3,20 @@ package com.prj.entity.prison;
 import com.org.Node;
 import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
+import com.prj.commom.Logger;
 import com.prj.entity.Player;
+import com.prj.entity.bank.Banker;
 
 
 public class Jail {
     private DoubleChainedList<Prisioner> prisioners;
     private DoubleChainedList<LiberationCard> liberationCards;
+    private Banker banker;
 
-    public Jail() {
+    public Jail(Banker banker) {
         this.prisioners = new DoubleChainedList<>();
         this.liberationCards = new DoubleChainedList<>();
+        this.banker = banker;
     }
 
     public void arrest(Player player) throws IllegalArgumentException {
@@ -20,6 +24,7 @@ public class Jail {
             throw new IllegalArgumentException("Player ["+ player.getName() +"] already in jail.");
         }
 
+        Logger.shPlayer(player, "was arrested.");
         Prisioner jailed = new Prisioner(player);
         this.prisioners.insertLast(new Node<>(jailed));
     }
@@ -30,6 +35,7 @@ public class Jail {
             Player player = prisioner.getPlayer();
 
             if (prisioner.isFree()) {
+                Logger.shPlayer(player, "is leaving the jail...");
                 this.handleFinancialStuff(prisioner);
                 people.insertLast(new Node<>(player));
             } else if (prisioner.attemptLiberationCard()) {
@@ -60,6 +66,7 @@ public class Jail {
             this.liberationCards.insertLast(new Node<>(card));
         }
 
+        Logger.shPlayer(player, "received credit on liberation card");
         card.receiveCredit();
     }
 
@@ -86,7 +93,7 @@ public class Jail {
     private void handleFinancialStuff(Prisioner prisioner) {
         boolean liberated = this.useCardCreditFrom(prisioner);
         if (! liberated) {
-            // paga dinheiro para o banco
+            this.banker.charge(prisioner.getPlayer(), 50);
         }
 
         this.terminateStay(prisioner);
