@@ -1,12 +1,11 @@
 package com.prj.entity.bank;
 
+import com.org.chained_list.DoubleChainedList;
 import com.prj.TestCase;
-import com.prj.entity.Ground;
+import com.prj.entity.building.Ground;
 import com.prj.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,7 +83,7 @@ public class BankerTest extends TestCase {
         banker.createAccount(player);
         banker.charge(player, chargeAmount);
 
-        ArrayList<Player> defaultings = banker.getDefaultings();
+        DoubleChainedList<Player> defaultings = banker.getDefaultings();
         assertTrue(defaultings.isEmpty());
 
         assertEquals(banker.getBalance(player), 0);
@@ -100,7 +99,7 @@ public class BankerTest extends TestCase {
         banker.createAccount(p1);
         banker.createAccount(p2);
 
-        assertThrows(AssertionError.class, () -> banker.transfer(p1, p2, 0));
+        assertThrows(IllegalArgumentException.class, () -> banker.transfer(p1, p2, 0));
     }
 
     @Test
@@ -114,7 +113,7 @@ public class BankerTest extends TestCase {
         // remove all his money
         banker.charge(p1, banker.getBalance(p1));
 
-        assertThrows(AssertionError.class, () -> banker.transfer(p1, p2, 1));
+        assertThrows(IllegalArgumentException.class, () -> banker.transfer(p1, p2, 1));
     }
 
     private void assertDefaultingAccount(Player player, double maxAmount) {
@@ -123,8 +122,8 @@ public class BankerTest extends TestCase {
 
         assertEquals(banker.getBalance(player), -1);
 
-        ArrayList<Player> defaultings = banker.getDefaultings();
-        assertEquals(defaultings.size(), 1);
-        assertEquals(defaultings.get(0), player);
+        DoubleChainedList<Player> defaultings = banker.getDefaultings();
+        assertEquals(defaultings.getSize(), 1);
+        assertEquals(defaultings.get(0).getValue(), player);
     }
 }

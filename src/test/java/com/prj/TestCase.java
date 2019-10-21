@@ -4,7 +4,7 @@ import com.org.Node;
 import com.org.stack.Stack;
 import com.prj.commom.Dice;
 import com.prj.commom.StackedFakeRandom;
-import com.prj.entity.Ground;
+import com.prj.entity.building.Ground;
 import com.prj.entity.Player;
 import com.prj.entity.bank.Account;
 import com.prj.entity.bank.Banker;
@@ -22,7 +22,7 @@ public class TestCase {
     }
 
     public Ground dummyGround(long price) {
-        return new Ground(price, this.dummyPlayer());
+        return new Ground(price, 100, this.dummyPlayer());
     }
 
     public Account dummyAccount() {
@@ -34,7 +34,7 @@ public class TestCase {
     }
 
     public Jail dummyJail() {
-        return new Jail();
+        return new Jail(this.dummyBanker());
     }
 
     public Prisioner dummyPrisioner() {

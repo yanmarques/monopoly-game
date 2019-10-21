@@ -1,5 +1,6 @@
 package com.prj.entity.prison;
 
+import com.prj.commom.Logger;
 import com.prj.entity.Player;
 
 public class LiberationCard {
@@ -27,6 +28,7 @@ public class LiberationCard {
             throw new IllegalAccessError("Player has no liberation cards.");
         }
 
+        Logger.showInfo(player, "used a liberation card credit");
         this.credits--;
     }
 

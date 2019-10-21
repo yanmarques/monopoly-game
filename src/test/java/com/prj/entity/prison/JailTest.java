@@ -1,9 +1,11 @@
 package com.prj.entity.prison;
 
 import com.org.Node;
+import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
 import com.prj.TestCase;
 import com.prj.entity.Player;
+import com.prj.entity.bank.Banker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +35,7 @@ public class JailTest extends TestCase {
         jail.arrest(badGuy);
 
         this.getLuck();
-        DoubleCircledList<Player> liberatedPlayers = jail.liberate();
+        DoubleChainedList<Player> liberatedPlayers = jail.liberate();
 
         assertTrue(liberatedPlayers.isEmpty());
         assertTrue(jail.isJailed(badGuy));
@@ -42,9 +44,12 @@ public class JailTest extends TestCase {
 
     @Test
     public void playerIsLiberatedAfterMaximumAttempts() {
+        Banker bank = new Banker();
         Player badGuy = this.dummyPlayer();
+        bank.createAccount(badGuy);
+        Jail jail = new Jail(bank);
 
-        DoubleCircledList<Player> liberatedPlayers;
+        DoubleChainedList<Player> liberatedPlayers;
 
         jail.arrest(badGuy);
         for (int i = 0; i < Prisioner.MAXIMUM_ATTEMPTS; i++) {

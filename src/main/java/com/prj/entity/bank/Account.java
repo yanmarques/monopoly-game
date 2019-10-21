@@ -1,5 +1,6 @@
 package com.prj.entity.bank;
 
+import com.prj.commom.Logger;
 import com.prj.entity.Player;
 
 public class Account {
@@ -28,6 +29,7 @@ public class Account {
 
     public void setBalance(double balance) {
         if (balance < 0) {
+            Logger.showInfo(player, "account is negative");
             this.isDefaulting = true;
         }
 

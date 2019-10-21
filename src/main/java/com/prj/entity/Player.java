@@ -1,15 +1,19 @@
 package com.prj.entity;
 
 import com.org.Node;
-import com.org.chained_list.DoubleChainedList;
+import com.org.chained_list.SimpleChainedList;
+import com.org.circle.DoubleCircledList;
+import com.org.interfaces.WalkIterator;
+import com.prj.entity.building.Ground;
+
 
 public class Player {
     private String name;
-    private DoubleChainedList<Ground> grounds;
+    private SimpleChainedList<Ground> grounds;
 
     public Player(String name) {
         this.name = name;
-        this.grounds = new DoubleChainedList<>();
+        this.grounds = new SimpleChainedList<>();
     }
 
     public String getName() {
@@ -18,21 +22,23 @@ public class Player {
 
     public void register(Ground ground) {
         ground.setOwner(this);
-        this.grounds.insertLast(new Node<>(ground));
+        this.getGrounds().insert(this.getGrounds().getSize(), new Node<>(ground));
     }
 
     public void unregister(Ground ground) {
-        for (int i = 0; i < this.grounds.getSize(); i++) {
-            Ground foundGround = this.grounds.get(i).getValue();
-            if (foundGround == ground) {
-                this.grounds.remove(i);
-                break;
-            }
-        }
+        this.grounds.remove(ground);
     }
 
     public boolean hasGrounds() {
         return ! this.grounds.isEmpty();
+    }
+
+    public WalkIterator<Ground> groundIterator() {
+        return this.grounds.iterator();
+    }
+
+    public SimpleChainedList<Ground> getGrounds() {
+        return this.grounds;
     }
 
     public Ground getFirstGround() {
@@ -41,5 +47,10 @@ public class Player {
         }
 
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Player [name=" + this.getName() + ",grounds=" + this.grounds.getSize() + "]";
     }
 }

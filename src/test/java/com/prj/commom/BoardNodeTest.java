@@ -1,7 +1,7 @@
 package com.prj.commom;
 
 import com.prj.TestCase;
-import com.prj.entity.Ground;
+import com.prj.entity.building.Ground;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
