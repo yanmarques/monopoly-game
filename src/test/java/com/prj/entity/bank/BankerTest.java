@@ -99,7 +99,7 @@ public class BankerTest extends TestCase {
         banker.createAccount(p1);
         banker.createAccount(p2);
 
-        assertThrows(AssertionError.class, () -> banker.transfer(p1, p2, 0));
+        assertThrows(IllegalArgumentException.class, () -> banker.transfer(p1, p2, 0));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class BankerTest extends TestCase {
         // remove all his money
         banker.charge(p1, banker.getBalance(p1));
 
-        assertThrows(AssertionError.class, () -> banker.transfer(p1, p2, 1));
+        assertThrows(IllegalArgumentException.class, () -> banker.transfer(p1, p2, 1));
     }
 
     private void assertDefaultingAccount(Player player, double maxAmount) {

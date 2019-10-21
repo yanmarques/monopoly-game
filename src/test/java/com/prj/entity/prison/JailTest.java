@@ -5,6 +5,7 @@ import com.org.chained_list.DoubleChainedList;
 import com.org.circle.DoubleCircledList;
 import com.prj.TestCase;
 import com.prj.entity.Player;
+import com.prj.entity.bank.Banker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +44,10 @@ public class JailTest extends TestCase {
 
     @Test
     public void playerIsLiberatedAfterMaximumAttempts() {
+        Banker bank = new Banker();
         Player badGuy = this.dummyPlayer();
+        bank.createAccount(badGuy);
+        Jail jail = new Jail(bank);
 
         DoubleChainedList<Player> liberatedPlayers;
 

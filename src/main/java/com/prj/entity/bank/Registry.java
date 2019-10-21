@@ -59,8 +59,10 @@ public class Registry {
             totalTax += ground.getTax();
         }
 
-        Logger.showInfo(player, "taxes coming, paying a total of: " + totalTax);
-        banker.charge(player, totalTax);
+        if (totalTax > 0) {
+            Logger.showInfo(player, "taxes coming, paying a total of: " + totalTax);
+            banker.charge(player, totalTax);
+        }
     }
 
     public void chargeRent(Player player, Ground ground) {
