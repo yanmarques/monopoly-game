@@ -4,6 +4,7 @@ import com.prj.commom.BoardNode;
 import com.prj.commom.Logger;
 import com.prj.commom.card.CardStack;
 import com.prj.commom.card.LuckyCard;
+import com.prj.commom.card.un_luckies.Donation;
 import com.prj.commom.card.un_luckies.GoToJail;
 import com.prj.commom.card.un_luckies.PayMoney;
 import com.prj.commom.factory.BoardSeeder;
@@ -49,11 +50,13 @@ public class Main {
 					board.getBanker().getRegistry().build(ground, new Hotel());
 				} catch (Exception exc1) {
 					Logger.error(exc1.getMessage());
+					Logger.showInfo(player, "don't have money to buy a hotel...");
 					try {
 						// tenta construir uma casa
 						board.getBanker().getRegistry().build(ground, new House());
 					} catch (Exception exc2) {
 						Logger.error(exc2.getMessage());
+						Logger.showInfo(player, "don't have money to buy a house...");
 					}
 				}
 			} else if (ground.getOwner() == board.getBanker())  {
@@ -62,6 +65,7 @@ public class Main {
 					board.getBanker().getRegistry().sell(ground, player);
 				} catch (Exception exc1) {
 					Logger.error(exc1.getMessage());
+					Logger.showInfo(player, "don't have money to buy ...");
 				}
 			} else {
 				// paga o aluguel
@@ -84,9 +88,10 @@ public class Main {
 	}
 
 	private static void createCardStack() {
-		LuckyCard[] availableCards = new LuckyCard[2];
+		LuckyCard[] availableCards = new LuckyCard[3];
 		availableCards[0] = new PayMoney();
 		availableCards[1] = new GoToJail();
+		availableCards[2] = new Donation();
 
 		cards = new CardStack(board, availableCards);
 	}

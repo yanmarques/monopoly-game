@@ -8,7 +8,7 @@ public class Ground extends BaseBuilding {
 
     public Ground(long price, int rentAmount, Player owner) {
         super(price, rentAmount);
-        this.setOwner(owner);
+        owner.register(this);
     }
 
     public Player getOwner() {
@@ -27,5 +27,10 @@ public class Ground extends BaseBuilding {
         this.building = building;
         this.setPrice(this.getPrice() + building.getPrice());
         this.setRentAmount(this.getRentAmount() + building.getRentAmount());
+    }
+
+    @Override
+    public String toString() {
+        return "Ground [price=R$" + this.getPrice() + ",building=" + this.getBuilding() + "]";
     }
 }

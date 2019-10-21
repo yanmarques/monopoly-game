@@ -28,7 +28,7 @@ public class Prisioner {
     }
 
     public boolean attemptLiberationCard() {
-        Logger.shPlayer(player, "trying get liberation card on luck...");
+        Logger.showInfo(player, "trying get liberation card on luck...");
         try {
             return this.remainingAttempts.remove().getValue().call();
         } catch (Exception e) {

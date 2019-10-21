@@ -29,7 +29,7 @@ public class CardStack {
             this.generateRandomCards();
         }
 
-        Logger.shPlayer(player, "taking a lucky card...");
+        Logger.showInfo(player, "taking a lucky card...");
         LuckyCard card = this.stack.remove().getValue();
         card.execute(player, this.runningBoard);
     }

@@ -24,7 +24,7 @@ public class Jail {
             throw new IllegalArgumentException("Player ["+ player.getName() +"] already in jail.");
         }
 
-        Logger.shPlayer(player, "was arrested.");
+        Logger.showInfo(player, "was arrested.");
         Prisioner jailed = new Prisioner(player);
         this.prisioners.insertLast(new Node<>(jailed));
     }
@@ -35,7 +35,7 @@ public class Jail {
             Player player = prisioner.getPlayer();
 
             if (prisioner.isFree()) {
-                Logger.shPlayer(player, "is leaving the jail...");
+                Logger.showInfo(player, "is leaving the jail...");
                 this.handleFinancialStuff(prisioner);
                 people.insertLast(new Node<>(player));
             } else if (prisioner.attemptLiberationCard()) {
@@ -66,7 +66,7 @@ public class Jail {
             this.liberationCards.insertLast(new Node<>(card));
         }
 
-        Logger.shPlayer(player, "received credit on liberation card");
+        Logger.showInfo(player, "received credit on liberation card");
         card.receiveCredit();
     }
 

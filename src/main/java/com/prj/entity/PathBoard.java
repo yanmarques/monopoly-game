@@ -47,7 +47,7 @@ public class PathBoard {
     }
 
     public BoardNode movePlayer(Player player, int positions) throws IllegalArgumentException {
-        Logger.shPlayer(player, "moving "+ positions +" positions.");
+        Logger.showInfo(player, "moving " + positions + " positions.");
         int srcPosition = this.findPosition(player);
         int targetPosition = srcPosition + positions;
 
@@ -55,7 +55,7 @@ public class PathBoard {
 
         if (positions > 0) {
             if (targetPosition >= this.board.getSize()) {
-                Logger.shPlayer(player, "completed a round.");
+                Logger.showInfo(player, "completed a round.");
                 this.banker.give(player, 200);
                 this.banker.getRegistry().chargeTaxes(player);
                 targetPosition -= this.board.getSize();

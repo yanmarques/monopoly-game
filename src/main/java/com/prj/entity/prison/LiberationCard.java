@@ -28,7 +28,7 @@ public class LiberationCard {
             throw new IllegalAccessError("Player has no liberation cards.");
         }
 
-        Logger.shPlayer(player, "used a liberation card credit");
+        Logger.showInfo(player, "used a liberation card credit");
         this.credits--;
     }
 

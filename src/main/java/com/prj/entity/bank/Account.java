@@ -29,7 +29,7 @@ public class Account {
 
     public void setBalance(double balance) {
         if (balance < 0) {
-            Logger.shPlayer(player, "account is negative");
+            Logger.showInfo(player, "account is negative");
             this.isDefaulting = true;
         }
 

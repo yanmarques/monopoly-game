@@ -36,4 +36,9 @@ abstract public class BaseBuilding {
     private void calculateTax() {
         this.tax = (this.price * this.taxPercentage) / 100;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " [price=R$" + this.getPrice() + "]";
+    }
 }

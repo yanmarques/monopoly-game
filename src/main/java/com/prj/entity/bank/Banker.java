@@ -32,7 +32,7 @@ public class Banker extends Player {
             throw new IllegalArgumentException("Player "+ player.getName() +"already has an account.");
         }
 
-        Logger.shPlayer(player, "creating account...");
+        Logger.showInfo(player, "creating account...");
         this.accounts.put(player, new Account(player));
     }
 
@@ -87,14 +87,18 @@ public class Banker extends Player {
         return this.findAccountOrFail(player).getBalance();
     }
 
-    public void transfer(Player sender, Player receiver, double amount) {
+    public void transfer(Player sender, Player receiver, double amount) throws IllegalArgumentException {
         Account senderAccount = this.findAccountOrFail(sender);
-        assert amount > 0 && senderAccount.getBalance() >= amount;
+        if (!(amount > 0 && senderAccount.getBalance() >= amount)) {
+            throw new IllegalArgumentException("Transfer information is not valid");
+        }
 
+        Logger.info("starting transfer from " + sender.getName() + " to " + receiver.getName() + " with R$" + amount);
         synchronized (this) {
             this.charge(sender, amount);
             this.give(receiver, amount);
         }
+        Logger.info("finished transfer!");
     }
 
     private boolean tryNegotiateFunds(Account account) {
@@ -121,7 +125,7 @@ public class Banker extends Player {
         synchronized (this) {
             account.setBalance(balance);
         }
-        Logger.shPlayer(account.getPlayer(), "old balance: R$"+ oldBalance);
-        Logger.shPlayer(account.getPlayer(), "new balance: R$"+ account.getBalance());
+        Logger.showInfo(account.getPlayer(), "old balance: R$" + oldBalance);
+        Logger.showInfo(account.getPlayer(), "new balance: R$" + account.getBalance());
     }
 }
